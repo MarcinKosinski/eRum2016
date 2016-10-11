@@ -1,0 +1,2 @@
+.ribbon { display: none; }
+.show-github-ribbon .ribbon { display: block; }

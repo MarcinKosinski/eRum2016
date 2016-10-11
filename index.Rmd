@@ -1,0 +1,250 @@
+---
+title: "<br><small> [archivist 2.0](https://github.com/pbiecek/archivist): (News from) <br> Managing Data Analysis [Results]() Toolkit </small>"
+subtitle: "<small> <br>[Marcin Kosiński](http://r-addict.com/About.html) </small>"
+author: "<small><a href='https://r-addict.com'><i class='fa fa-comment'></i></a>&nbsp;&nbsp;<a href='https://stackoverflow.com/users/3857701'><i class='fa fa-stack-overflow'></i></a>&nbsp;&nbsp;<a href='https://github.com/MarcinKosinski'><i class='fa fa-github'></i></a>&nbsp;&nbsp;<a href='mailto:m.p.kosinski@gmail.com'><i class='fa fa-envelope-o'></i></a></small><br>"
+date: October 13, 2016
+output:
+  revealjs::revealjs_presentation:
+    css: github_fork.css
+    theme: white
+    highlight: pygments
+    self_contained: false
+    center: true
+    reveal_options:
+      slideNumber: true
+---
+
+
+
+```{r, include=FALSE}
+# edit main page with file.edit(system.file("rmarkdown/templates/revealjs_presentation/resources/default.html",package="revealjs"))
+# line 126
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+library(knitr)
+opts_chunk$set(
+	comment = "",
+	fig.width = 12, 
+	message = FALSE,
+	warning = FALSE,
+	tidy.opts = list(
+		keep.blank.line = TRUE,	
+		width.cutoff = 150
+		),
+	options(width = 80),
+	eval = TRUE
+)
+```
+
+# Results {data-background="imgs/bg-small.png"}
+
+## Results {data-background="imgs/bg-small.png"}
+
+Should be
+
+- easy to access (for further processing)
+- verifiable
+- reproducible
+
+## Desired format {data-background="imgs/bg-small.png"}
+
+```{r, results='asis', eval=FALSE}
+library(archivist.github)
+archive(survplot, alink = TRUE) # results='asis'
+```
+```{r, echo=FALSE, fig.height=4.25, fig.width=6}
+library(survminer);archivist::aread('archivistR/eRum2016/817107d0e62a9500c4ddb1770bd03378')
+```
+<small>
+[`archivist::aread('archivistR/eRum2016/817107d0e62a9500c4ddb1770bd03378')`](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/817107d0e62a9500c4ddb1770bd03378.rda)
+</small>
+
+## Desired format {data-background="imgs/bg-small.png"}
+
+```{r, eval=FALSE, results='asis'}
+ahistory(BRCA.rnaseq.TP53, format = "kable", alink = TRUE )
+```
+<small>
+
+|   |call                                                |md5hash                                                                                                                                       |
+|:--|:------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------|
+|4  |BRCA.rnaseq                                         |[63678e012c5b7f40966c32eec91f828b](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/63678e012c5b7f40966c32eec91f828b.rda) |
+|3  |select(`TP53|7157`, bcr_patient_barcode)       |[4a85ce61229dd743b911d7edab0310b3](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/4a85ce61229dd743b911d7edab0310b3.rda) |
+|2  |rename(TP53 = `TP53|7157`)                     |[103f2b82c41956e9f6437b3a0cd68679](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/103f2b82c41956e9f6437b3a0cd68679.rda) |
+|1  |filter(substr(bcr_patient_barcode, 14, 15) == "01") |[1da5a026aae19e0d0467ba3773679e28](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/1da5a026aae19e0d0467ba3773679e28.rda) |
+```{r, echo=5}
+library(archivist)
+invisible(aoptions("user", "archivistR") )
+invisible(aoptions("repo", "eRum2016"))
+invisible(aoptions("repoDir", "eRum2016"))
+head(getTagsRemote("63678e012c5b7f40966c32eec91f828b", tag=""))
+```
+```{r, eval=FALSE}
+asession("63678e012c5b7f40966c32eec91f828b")
+
+package          * version      date       source                          
+ archivist        * 2.1          2016-07-27 CRAN (R 3.3.1)                  
+ archivist.github * 0.2.2        2016-08-30 CRAN (R 3.3.1)                  
+ assertthat         0.1          2013-12-06 CRAN (R 3.3.1)                  
+ bitops             1.0-6        2013-08-17 CRAN (R 3.3.1)                  
+```
+
+</small>
+
+# Problems with reproducibility {data-background="imgs/bg-small.png"}
+
+## Problems with reproducibility {data-background="imgs/bg-small.png"}
+
+<small>
+The reproducibility is sometimes impossible due to different
+
+- base version of R
+- versions of R packages
+- versions of dependent software
+- global variables
+
+or due to the
+
+- limitation of the original data
+- insufficient computational machinery
+
+[<i class='fa fa-stack-overflow'></i> Can't gather tibble in R](http://stackoverflow.com/questions/39231807/cant-gather-tibble-in-r)
+
+[<i class='fa fa-stack-overflow'></i> Can't install git2r nor devtools R packages on centOS 7.0 64 bit](http://stackoverflow.com/questions/30394563/cant-install-git2r-nor-devtools-r-packages-on-centos-7-0-64-bit)
+
+[<i class='fa fa-stack-overflow'></i> pandoc version 1.12.3 or higher is required and was not found (R shiny)](http://stackoverflow.com/questions/28432607/pandoc-version-1-12-3-or-higher-is-required-and-was-not-found-r-shiny)
+
+[<i class='fa fa-github'></i> rmarkdown::render freezes because pandoc freezes when LC_ALL and LANG are unset](https://github.com/rocker-org/shiny/issues/17)
+
+</small>
+
+# improve accessibility {data-background="imgs/bg-small.png"}
+
+## improve accessibility {data-background="imgs/bg-small.png"}
+<small>
+**Provide results with unique hooks, so that one can <br>verify, use and modify them.**
+</small>
+```{r, eval=FALSE}
+install.packages('archivist')
+```
+<small>
+**Store results in the repository with their metadata <br>- searching for objects with specific attributes is possible.**
+</small>
+```{r asave, cache=TRUE}
+library(archivist)
+prod_model <- lm(Sepal.Length ~ ., data = iris)
+asave(prod_model, repoDir="eRum2016")
+```
+
+
+
+# [archivist](https://cran.r-project.org/web/packages/archivist/index.html) worklfow {data-background="imgs/bg-small.png"}
+
+## [archivist](https://cran.r-project.org/web/packages/archivist/index.html) worklfow {data-background="imgs/bg-small.png"}
+
+
+I need a new graph of simple archivist workflow with main functionalities.
+
+
+# Core Usecases {data-background="imgs/bg-small.png"}
+
+## add hooks to print {data-background="imgs/bg-small.png"}
+
+```{r, echo=FALSE}
+library(RTCGA.clinical)
+survivalTCGA(BRCA.clinical, OV.clinical,
+             extract.cols = "admin.disease_code") -> BRCAOV.survInfo
+library(survival)
+fit <- survfit(Surv(times, patient.vital_status) ~ admin.disease_code,
+               data = BRCAOV.survInfo)
+library(survminer)
+
+
+survplot <- ggsurvplot(
+   fit,                     # survfit object with calculated statistics.
+   risk.table = TRUE,       # show risk table.
+   pval = TRUE,             # show p-value of log-rank test.
+   conf.int = TRUE,         # show confidence intervals for 
+                            # point estimaes of survival curves.
+   xlim = c(0,2000),        # present narrower X axis, but not affect
+                            # survival estimates.
+   break.time.by = 500,     # break X axis in time intervals by 500.
+   ggtheme = theme_RTCGA(), # customize plot and risk table with a theme.
+ risk.table.y.text.col = T, # colour risk table text annotations.
+  risk.table.y.text = FALSE # show bars instead of names in text annotations
+                            # in legend of risk table
+)
+```
+<small>
+```{r, results='asis', fig.height=3, fig.width=4}
+library(survminer) # results='asis'
+addHooksToPrint(class="ggsurvplot") 
+survplot
+```
+</small>
+[Greater example](https://rawgit.com/pbiecek/Eseje/master/GrammarOfGraphics.html) by [pbiecek]()
+
+## Objects' Exploration {data-background="imgs/bg-small.png"}
+
+```{r}
+lapply(asearch("pbiecek/graphGallery",
+               patterns = c("class:lm", "coefname:Sepal.Length")),
+       coef)
+```
+
+
+## archivist + shiny {data-background="imgs/bg-small.png"}
+
+<img src="http://smarterpoland.pl/wp-content/uploads/2016/06/Screen-Shot-2016-06-26-at-10.00.27-1024x651.png" alt="shiny" style="width:450px;height:300px;">
+
+Source: [Shiny + archivist = reproducible interactive exploration](http://smarterpoland.pl/index.php/2016/06/shiny-archivist-reproducible-interactive-exploration/) by [pbiecek](http://github.com/pbiecek/)
+
+## More Usecases {data-background="imgs/bg-small.png"}
+
+<small>
+
+[The list of blog-posts and conference talks about `archivist`](http://pbiecek.github.io/archivist/Posts.html)
+
+- 2016-08 Ver 2.1.0 [A link that can tell more than dozens of lines of R code – what’s new in archivist? (Przemysław Biecek)](https://www.r-bloggers.com/a-link-that-can-tell-more-than-dozens-of-lines-of-r-code-whats-new-in-archivist/)
+- 2016-06 Ver 2.0.4 [useR! 2016 Conference, Stanford](http://user2016.org/) [How to use archivist
+to boost reproducibility (Przemyslaw Biecek)](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/How-to-use-the-archivist-package-to-boost-reproducibility-of-your-research)
+- 2016-06 Ver 0.2.1 `archivist.github`: [R Hero saves Backup City with archivist and GitHub (Marcin Kosiński)](http://www.r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github/)
+- 2016-05 Ver 2.0.3 [All your models belong to us: how to combine package archivist and function trace() (Przemysław Biecek)](http://www.r-bloggers.com/all-your-models-belong-to-us-how-to-combine-package-archivist-and-function-trace/)
+- 2016-02 Ver 2.0 [Why should you backup your objects? (Przemysław Biecek)](http://www.r-bloggers.com/why-should-you-backup-your-r-objects/)
+- 2016-02 Ver 0.1 First extenstion: `archivist.github` CRAN Publication, [Tools for Archiving, Managing and Sharing R Objects via GitHub](http://marcinkosinski.github.io/archivist.github/)
+- 2016-02 Ver 2.0 CRAN Publication 
+- 2015-11 Ver 1.7 [BI Forum Conference, Hungary](https://budapestbi2015.sched.org/event/4JA8/archivist-managing-data-analysis-results), [
+archivist: Managing Data Analysis Results
+(Marcin Kosiński)](https://github.com/pbiecek/archivist/tree/gh-pages/files/archivist_BIFORUM.pdf)   
+- 2015-06 Ver 1.5 [useR! 2015 Conference, Denmark](http://user2015.math.aau.dk/), [archivist: Tools for Storing, Restoring and Searching for R Objects (Przemyslaw Biecek)](http://user2015.math.aau.dk/presentations/185.pdf)
+- 2014-10 Ver 1.1 [Polish R Users Conference 2014, Poland](http://www.estymator.ue.poznan.pl/pazur/), [Archiving artifacts with archivist (Marcin Kosiński)](https://github.com/MarcinKosinski/Museum/blob/master/pazur_kosinski.pdf)
+- 2014-09 Ver 1.1 [Lazy Load With archivist (Marcin Kosiński)](http://smarterpoland.pl/index.php/2014/09/lazy-load-with-archivist/)
+- 2014-08 Ver 1.0 CRAN Publication
+
+</small>
+
+# Extensions {data-background="imgs/bg-small.png"}
+
+## [archivist.github](https://cran.r-project.org/web/packages/archivist.github/index.html) {data-background="imgs/bg-small.png"}
+
+<img src="http://r-addict.com/images/fulls/archivist_github.png" alt="Mountain View" style="width:450px;height:500px;">
+
+## Thanks for your attention {data-background="imgs/bg-small.png"}
+
+<img src="http://r-addict.com/images/fulls/github_R.jpg" alt="Mountain View" style="width:500px;height:500px;">
+
+[pbiecek.github.io/archivist/](http://pbiecek.github.io/archivist/)
+
+# Remark {data-background="imgs/bg-small.png"}
+
+## Remark {data-background="imgs/bg-small.png"}
+
+Examples would not work without few settings
+
+```{r, eval=FALSE}
+aoptions("user", "archivistR")
+aoptions("repo", "eRum2016")
+aoptions("repoDir", "eRum2016")
+```
+
+> Source code of a presentation is on this [repository](https://github.com/MarcinKosinski/eRum2016/tree/gh-pages).
+
