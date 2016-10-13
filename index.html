@@ -248,7 +248,71 @@ $`2a6e492cb6982f230e48cf46023e2e4f`
 <h1>archivist + shiny</h1>
 <p><img src="http://smarterpoland.pl/wp-content/uploads/2016/06/Screen-Shot-2016-06-26-at-10.00.27-1024x651.png" alt="shiny" style="width:450px;height:300px;"></p>
 <p>Source: <a href="http://smarterpoland.pl/index.php/2016/06/shiny-archivist-reproducible-interactive-exploration/">Shiny + archivist = reproducible interactive exploration</a> by <a href="http://github.com/pbiecek/">pbiecek</a></p>
-</section><section id="more-usecases" class="slide level2" data-background="imgs/bg-small.png">
+</section>
+<section id="cache-engine" class="slide level2" data-background="imgs/bg-small.png">
+<h1>cache engine</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aread</span>(<span class="st">&quot;MarcinKosinski/Museum/c647&quot;</span>) -&gt;<span class="st"> </span>manyComputations
+<span class="kw">system.time</span>(<span class="kw">cache</span>(<span class="dt">FUN =</span> manyComputations, rnorm, <span class="dv">100</span>,
+                  <span class="dt">cacheRepo =</span> <span class="st">&quot;eRum2016&quot;</span>))</code></pre></div>
+<pre><code>   user  system elapsed 
+  0.016   0.003   0.019 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">cache</span>(<span class="dt">FUN =</span> manyComputations, rnorm, <span class="dv">100</span>,
+                  <span class="dt">cacheRepo =</span> <span class="st">&quot;eRum2016&quot;</span>))</code></pre></div>
+<pre><code>   user  system elapsed 
+  0.019   0.000   0.018 </code></pre>
+</section>
+<section id="restoring-pedigree" class="slide level2" data-background="imgs/bg-small.png">
+<h1>restoring pedigree</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(RTCGA.rnaseq); <span class="kw">data</span>(BRCA.rnaseq)
+<span class="kw">library</span>(dplyr); <span class="kw">library</span>(archivist) <span class="co">#for %a%</span>
+BRCA.rnaseq %a%
+<span class="st">    </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">TP53|7157</span><span class="st">`</span>, 
+           bcr_patient_barcode) %a%
+<span class="st">    </span><span class="kw">rename</span>(<span class="dt">TP53 =</span> <span class="st">`</span><span class="dt">TP53|7157</span><span class="st">`</span>) %a%
+<span class="st">    </span><span class="kw">filter</span>(<span class="kw">substr</span>(bcr_patient_barcode, 
+                  <span class="dv">14</span>, <span class="dv">15</span>) ==<span class="st"> &quot;01&quot;</span> ) -&gt;<span class="st"> </span>
+<span class="st">    </span>BRCA.rnaseq.TP53</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ahistory</span>(BRCA.rnaseq.TP53)</code></pre></div>
+<small>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 1%" />
+<col style="width: 60%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">call</th>
+<th style="text-align: left;">md5hash</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">BRCA.rnaseq</td>
+<td style="text-align: left;"><a href="https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/63678e012c5b7f40966c32eec91f828b.rda">63678e012c5b7f40966c32eec91f828b</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">select(<code>TP53|7157</code>, bcr_patient_barcode)</td>
+<td style="text-align: left;"><a href="https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/4a85ce61229dd743b911d7edab0310b3.rda">4a85ce61229dd743b911d7edab0310b3</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">rename(TP53 = <code>TP53|7157</code>)</td>
+<td style="text-align: left;"><a href="https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/103f2b82c41956e9f6437b3a0cd68679.rda">103f2b82c41956e9f6437b3a0cd68679</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">filter(substr(bcr_patient_barcode, 14, 15) == “01”)</td>
+<td style="text-align: left;"><a href="https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/1da5a026aae19e0d0467ba3773679e28.rda">1da5a026aae19e0d0467ba3773679e28</a></td>
+</tr>
+</tbody>
+</table>
+<p></small></p>
+</section>
+<section id="more-usecases" class="slide level2" data-background="imgs/bg-small.png">
 <h1>More Usecases</h1>
 <small>
 <p><a href="http://pbiecek.github.io/archivist/Posts.html">The list of blog-posts and conference talks about <code>archivist</code></a></p>
