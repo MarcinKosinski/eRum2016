@@ -1,0 +1,72 @@
+---
+output:
+  revealjs::revealjs_presentation:
+    css: github_fork.css
+    theme: white
+    highlight: pygments
+    self_contained: false
+    center: true
+    reveal_options:
+      slideNumber: true
+---
+
+
+```{r}
+library(knitr)
+opts_chunk$set(
+	comment = "",
+	fig.width = 12, 
+	message = FALSE,
+	warning = FALSE,
+	tidy.opts = list(
+		keep.blank.line = TRUE,	
+		width.cutoff = 150
+		),
+	options(width = 80),
+	eval = TRUE
+)
+library(archivist)
+aoptions("user", "archivistR")
+aoptions("repo", "eRum2016")
+aoptions("repoDir", "eRum2016")
+```
+
+
+## cache engine {data-background="imgs/bg-small.png"}
+
+```{r}
+aread("MarcinKosinski/Museum/c647") -> manyComputations
+system.time(cache(FUN = manyComputations, rnorm, 100,
+                  cacheRepo = "eRum2016"))
+system.time(cache(FUN = manyComputations, rnorm, 100,
+                  cacheRepo = "eRum2016"))
+```
+
+
+## restoring pedigree {data-background="imgs/bg-small.png"}
+
+```{r, eval = FALSE}
+library(RTCGA.rnaseq); data(BRCA.rnaseq)
+library(dplyr); library(archivist) #for %a%
+BRCA.rnaseq %a%
+    select(`TP53|7157`, 
+           bcr_patient_barcode) %a%
+    rename(TP53 = `TP53|7157`) %a%
+    filter(substr(bcr_patient_barcode, 
+                  14, 15) == "01" ) -> 
+    BRCA.rnaseq.TP53
+```
+```{r, eval = FALSE}
+ahistory(BRCA.rnaseq.TP53)
+```
+
+<small>
+
+|   |call                                                |md5hash                                                                                                                                       |
+|:--|:------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------|
+|4  |BRCA.rnaseq                                         |[63678e012c5b7f40966c32eec91f828b](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/63678e012c5b7f40966c32eec91f828b.rda) |
+|3  |select(`TP53|7157`, bcr_patient_barcode)       |[4a85ce61229dd743b911d7edab0310b3](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/4a85ce61229dd743b911d7edab0310b3.rda) |
+|2  |rename(TP53 = `TP53|7157`)                     |[103f2b82c41956e9f6437b3a0cd68679](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/103f2b82c41956e9f6437b3a0cd68679.rda) |
+|1  |filter(substr(bcr_patient_barcode, 14, 15) == "01") |[1da5a026aae19e0d0467ba3773679e28](https://raw.githubusercontent.com/archivistR/eRum2016/master/gallery/1da5a026aae19e0d0467ba3773679e28.rda) |
+
+</small>
