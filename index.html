@@ -252,11 +252,11 @@ $`2a6e492cb6982f230e48cf46023e2e4f`
 <section id="cache-engine" class="slide level2" data-background="imgs/bg-small.png">
 <h1>cache engine</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aread</span>(<span class="st">&quot;MarcinKosinski/Museum/c647&quot;</span>) -&gt;<span class="st"> </span>manyComputations
-<span class="kw">system.time</span>(<span class="kw">cache</span>(<span class="dt">FUN =</span> manyComputations, rnorm, <span class="dv">100</span>,
+<span class="kw">system.time</span>(<span class="kw">cache</span>(<span class="dt">FUN =</span> manyComputations, rnorm, <span class="dv">1000</span>,
                   <span class="dt">cacheRepo =</span> <span class="st">&quot;eRum2016&quot;</span>))</code></pre></div>
 <pre><code>   user  system elapsed 
-  0.016   0.003   0.019 </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">cache</span>(<span class="dt">FUN =</span> manyComputations, rnorm, <span class="dv">100</span>,
+  89.753   0.163   89.874 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">cache</span>(<span class="dt">FUN =</span> manyComputations, rnorm, <span class="dv">1000</span>,
                   <span class="dt">cacheRepo =</span> <span class="st">&quot;eRum2016&quot;</span>))</code></pre></div>
 <pre><code>   user  system elapsed 
   0.019   0.000   0.018 </code></pre>
